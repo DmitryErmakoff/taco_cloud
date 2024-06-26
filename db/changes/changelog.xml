@@ -1,0 +1,151 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd"
+                   objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS" logicalFilePath="./changes/changelog.xml">
+
+    <changeSet author="dmitryermakoff" id="create_ingredient_table">
+        <createTable tableName="Ingredient">
+            <column name="id" type="VARCHAR(4)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(25)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="dmitryermakoff" id="create_taco_order_table">
+        <createTable tableName="Taco_Order">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="delivery_Name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="delivery_Street" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="delivery_City" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="delivery_State" type="VARCHAR(2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="delivery_Zip" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cc_number" type="VARCHAR(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cc_expiration" type="VARCHAR(5)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cc_cvv" type="VARCHAR(3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="placed_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="dmitryermakoff" id="create_taco_table">
+        <createTable tableName="Taco">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="taco_order" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="dmitryermakoff" id="add_foreign_key_to_taco_table">
+        <addForeignKeyConstraint baseTableName="Taco"
+                                 baseColumnNames="taco_order"
+                                 constraintName="FK_taco_order"
+                                 referencedTableName="Taco_Order"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet author="dmitryermakoff" id="create_ingredient_ref_table">
+        <createTable tableName="Ingredient_Ref">
+            <column name="ingredient" type="VARCHAR(4)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="taco" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="taco_key" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="dmitryermakoff" id="add_foreign_key_to_ingredient_ref_table">
+        <addForeignKeyConstraint baseTableName="Ingredient_Ref"
+                                 baseColumnNames="ingredient"
+                                 constraintName="FK_ingredient"
+                                 referencedTableName="Ingredient"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="Ingredient_Ref"
+                                 baseColumnNames="taco"
+                                 constraintName="FK_taco"
+                                 referencedTableName="Taco"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet author="dmitryermakoff" id="insert_ingredients">
+        <insert tableName="Ingredient">
+            <column name="id" value="GRBF"/>
+            <column name="name" value="Ground Beef"/>
+            <column name="type" value="PROTEIN"/>
+        </insert>
+        <insert tableName="Ingredient">
+            <column name="id" value="CARN"/>
+            <column name="name" value="Carnitas"/>
+            <column name="type" value="PROTEIN"/>
+        </insert>
+        <insert tableName="Ingredient">
+            <column name="id" value="TMTO"/>
+            <column name="name" value="Diced Tomatoes"/>
+            <column name="type" value="VEGGIES"/>
+        </insert>
+        <insert tableName="Ingredient">
+            <column name="id" value="LETC"/>
+            <column name="name" value="Lettuce"/>
+            <column name="type" value="VEGGIES"/>
+        </insert>
+        <insert tableName="Ingredient">
+            <column name="id" value="CHED"/>
+            <column name="name" value="Cheddar"/>
+            <column name="type" value="CHEESE"/>
+        </insert>
+        <insert tableName="Ingredient">
+            <column name="id" value="JACK"/>
+            <column name="name" value="Monterrey Jack"/>
+            <column name="type" value="CHEESE"/>
+        </insert>
+        <insert tableName="Ingredient">
+            <column name="id" value="SLSA"/>
+            <column name="name" value="Salsa"/>
+            <column name="type" value="SAUCE"/>
+        </insert>
+        <insert tableName="Ingredient">
+            <column name="id" value="SRCR"/>
+            <column name="name" value="Sour Cream"/>
+            <column name="type" value="SAUCE"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
