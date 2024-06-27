@@ -1,8 +1,6 @@
 package sia.taco_cloud.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 
@@ -16,6 +14,7 @@ public class Ingredient {
     @Id
     private String id;
     private String name;
+    @Enumerated(EnumType.STRING)
     private Type type;
 
 
